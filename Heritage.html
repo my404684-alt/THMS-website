@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Legacy & Heritage | THMS</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root { 
+      --gold: #c0a080; 
+      --dark-slate: #1a1a1a;
+      --text: #2c3e50; 
+      --bg: #ffffff; 
+      --light-gold: #fdfaf6;
+    }
+
+    /* Smooth Scrolling */
+    html { scroll-behavior: smooth; }
+
+    body { font-family: 'Inter', sans-serif; margin: 0; color: var(--text); background: var(--bg); line-height: 1.8; overflow-x: hidden; }
+    h1, h2, h3, h4, .serif { font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: 0.5px; }
+
+    /* Navigation Refinement */
+    .main-nav { 
+      display: flex; justify-content: center; gap: 40px; padding: 1.5rem 0; 
+      font-size: 0.75rem; letter-spacing: 2px; border-bottom: 1px solid rgba(0,0,0,0.05);
+      position: sticky; top: 0; background: white; z-index: 1000;
+    }
+    .main-nav a { text-decoration: none; color: #222; font-weight: 600; transition: 0.3s; }
+    .main-nav a:hover { color: var(--gold); }
+    .active-nav { color: var(--gold) !important; }
+
+    /* Heritage Hero - Parallax Effect */
+    .heritage-hero {
+      height: 85vh;
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                  url('https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1600&q=80');
+      background-size: cover; background-position: center; background-attachment: fixed;
+      display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center;
+    }
+    .heritage-hero h1 { font-size: clamp(3rem, 8vw, 6rem); margin: 0; }
+    .heritage-hero p { font-size: 1rem; text-transform: uppercase; letter-spacing: 6px; margin-top: 20px; font-weight: 300; }
+
+    /* Map Background Texture */
+    .map-texture {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: url('https://www.transparenttextures.com/patterns/world-map.png');
+      opacity: 0.1; z-index: -1; pointer-events: none;
+    }
+
+    /* Content Section */
+    .intro-section { position: relative; padding: 8rem 10%; text-align: center; }
+    .intro-section h2 { font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.1; margin-bottom: 2rem; }
+    
+    .divider-elegant { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 3rem 0; }
+    .line { width: 100px; height: 1px; background: var(--gold); }
+    .diamond { transform: rotate(45deg); width: 8px; height: 8px; background: var(--gold); }
+
+    /* Dynamic Timeline */
+    .timeline-container { position: relative; max-width: 1000px; margin: 6rem auto; padding: 0 20px; }
+    .timeline-container::before { content: ''; position: absolute; left: 50%; width: 1px; height: 100%; background: #eee; transform: translateX(-50%); }
+
+    .timeline-node { 
+      display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 6rem; position: relative;
+    }
+    .timeline-node:nth-child(even) { flex-direction: row-reverse; }
+    
+    .timeline-content { width: 42%; padding: 40px; background: var(--light-gold); border-radius: 4px; transition: 0.4s; }
+    .timeline-content:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+    .timeline-content h4 { font-size: 1.8rem; margin: 10px 0; color: var(--gold); }
+    
+    .timeline-year-circle { 
+      position: absolute; left: 50%; transform: translateX(-50%); 
+      width: 80px; height: 80px; background: white; border: 1px solid var(--gold); 
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display'; font-weight: 700; color: var(--gold); z-index: 2;
+    }
+
+    /* Founder Section */
+    .founder-note { 
+      background: var(--dark-slate); color: white; padding: 10rem 15%; text-align: center; 
+      clip-path: polygon(0 5%, 100% 0%, 100% 95%, 0% 100%); margin: 5rem 0;
+    }
+    .signature { font-family: 'Playfair Display'; font-style: italic; font-size: 2.5rem; color: var(--gold); margin-top: 2rem; display: block; }
+
+    /* Image/Text Feature Grid */
+    .feature-grid { display: grid; grid-template-columns: 1fr 1fr; min-height: 600px; }
+    .feature-img { overflow: hidden; }
+    .feature-img img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s; }
+    .feature-grid:hover .feature-img img { transform: scale(1.05); }
+    
+    .feature-content { padding: 15% 10%; display: flex; flex-direction: column; justify-content: center; background: white; }
+    .feature-grid.reverse { direction: rtl; }
+    .feature-grid.reverse .feature-content { direction: ltr; }
+
+    .btn-outline {
+      display: inline-block; padding: 15px 35px; border: 1px solid var(--gold);
+      color: var(--gold); text-decoration: none; text-transform: uppercase;
+      font-size: 0.7rem; letter-spacing: 2px; font-weight: 700; margin-top: 30px; transition: 0.4s;
+    }
+    .btn-outline:hover { background: var(--gold); color: white; }
+
+    footer { background: #111; color: #777; padding: 5rem 0; text-align: center; }
+    footer p { font-size: 0.7rem; letter-spacing: 2px; }
+
+    /* Mobile Adaptability */
+    @media (max-width: 900px) {
+      .timeline-container::before { left: 20px; }
+      .timeline-node, .timeline-node:nth-child(even) { flex-direction: column; align-items: flex-start; }
+      .timeline-content { width: 90%; margin-left: 50px; }
+      .timeline-year-circle { left: 20px; width: 50px; height: 50px; font-size: 0.8rem; }
+      .feature-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="main-nav">
+    <a href="index.html">HOME</a>
+    <a href="about.html">ABOUT</a>
+    <a href="heritage.html" class="active-nav">HERITAGE</a>
+    <a href="Destinations.html">DESTINATIONS</a>
+    <a href="booking.html">BOOKINGS</a>
+  </nav>
+
+  <header class="heritage-hero">
+    <h1>Our Heritage</h1>
+    <p>The Art of Timeless Travel</p>
+  </header>
+
+  <section class="intro-section">
+    <div class="map-texture"></div>
+    <span style="letter-spacing: 5px; font-size: 0.7rem; color: var(--gold); font-weight: 700;">ESTABLISHED 1945</span>
+    <h2>A Lineage of Bespoke <br>Curation & Global Discovery</h2>
+    
+    <div class="divider-elegant">
+      <div class="line"></div>
+      <div class="diamond"></div>
+      <div class="line"></div>
+    </div>
+
+    <p style="max-width: 750px; margin: auto; font-size: 1.15rem; color: #666; font-weight: 300;">
+      Founded in the wake of 1945 by Paul L. Klein, THMS emerged as a beacon for the carriage trade—the world’s most discerning travelers. What began with the grandeur of steamships has evolved into a global management system dedicated to preserving the soul of heritage sites while delivering unrivaled luxury.
+    </p>
+
+    <div class="timeline-container">
+      
+      <div class="timeline-node">
+        <div class="timeline-year-circle">1945</div>
+        <div class="timeline-content">
+          <h4>The Inception</h4>
+          <p>Paul L. Klein opens the doors in an era of steamships and grand trunks, defining the "Carriage Trade" standard for international elite travel.</p>
+        </div>
+      </div>
+
+      <div class="timeline-node">
+        <div class="timeline-year-circle">1980</div>
+        <div class="timeline-content">
+          <h4>Bespoke Mastery</h4>
+          <p>Expanding into fully personalized curation, we pioneered the concept that travel is not a product, but a tailored personal narrative.</p>
+        </div>
+      </div>
+
+      <div class="timeline-node">
+        <div class="timeline-year-circle">2026</div>
+        <div class="timeline-content">
+          <h4>Modern Guardians</h4>
+          <p>Launching the Tourism Heritage Management System—a digital evolution designed to protect historical landmarks via sustainable luxury tourism.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="founder-note">
+    <i class="fas fa-quote-left" style="font-size: 2rem; color: var(--gold); margin-bottom: 2rem;"></i>
+    <h2 class="serif" style="font-size: 2.2rem; font-style: italic;">
+      "Travel is the only thing you buy that makes you richer. We don't just book trips; we curate the wealth of human experience."
+    </h2>
+    <span class="signature">Paul L. Klein</span>
+    <p style="font-size: 0.7rem; letter-spacing: 3px; margin-top: 10px; opacity: 0.6;">FOUNDER, 1945</p>
+  </section>
+
+  <section class="heritage-features">
+    
+    <div class="feature-grid">
+      <div class="feature-img">
+        <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=1000&q=80" alt="Bespoke Travel">
+      </div>
+      <div class="feature-content">
+        <span style="color: var(--gold); font-size: 0.7rem; font-weight: 700; letter-spacing: 2px;">THE PHILOSOPHY</span>
+        <h3>Bespoke vs. Traditional</h3>
+        <p>A true Bespoke Traveler does not follow a map; they create one. Our role is to provide the connections, the access, and the historical context that turns a visit into a legacy.</p>
+        <a href="booking.html" class="btn-outline">Start Your Journey</a>
+      </div>
+    </div>
+
+    <div class="feature-grid reverse">
+      <div class="feature-img">
+        <img src="https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=1000&q=80" alt="Heritage Preservation">
+      </div>
+      <div class="feature-content">
+        <span style="color: var(--gold); font-size: 0.7rem; font-weight: 700; letter-spacing: 2px;">THE ALLIANCE</span>
+        <h3>Global Virtuoso Reach</h3>
+        <p>With elite relationships across 1,000+ world-renowned hotels and private cruise lines, we offer the "Golden Key" to the world's most restricted and beautiful heritage sites.</p>
+        <a href="Destinations.html" class="btn-outline">Our Destinations</a>
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    <p>&copy; 2026 TOURISM HERITAGE MANAGEMENT SYSTEM. ALL RIGHTS RESERVED.</p>
+    <div style="margin-top: 20px;">
+      <a href="#" style="color: #444; margin: 0 10px;"><i class="fab fa-instagram"></i></a>
+      <a href="#" style="color: #444; margin: 0 10px;"><i class="fab fa-facebook"></i></a>
+    </div>
+  </footer>
+
+</body>
+</html>

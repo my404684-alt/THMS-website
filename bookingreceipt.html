@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Correspondence | THMS Heritage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@100;300;400;600&family=JetBrains+Mono:wght@100;400&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --gold: #c0a080; 
+            --dark: #050505; 
+            --paper: #fcfcfc; 
+            --ink: #111111;
+            --soft-gold: rgba(192, 160, 128, 0.15);
+        }
+        
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { 
+            background: var(--dark); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0;
+            padding: 60px 20px;
+            background-image: 
+                radial-gradient(circle at 20% 30%, #151515 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, #101010 0%, transparent 40%);
+        }
+
+        /* High-End Stationery Card */
+        .heritage-note {
+            background: var(--paper);
+            width: 100%;
+            max-width: 650px;
+            padding: 80px;
+            position: relative;
+            box-shadow: 
+                0 30px 100px rgba(0,0,0,0.9),
+                inset 0 0 100px rgba(0,0,0,0.02);
+            color: var(--ink);
+            border: 1px solid #000;
+            /* Subtle Paper Grain Overlay */
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+        }
+
+        /* Elegant Thin Frame */
+        .inner-frame {
+            border: 1px solid var(--soft-gold);
+            padding: 50px;
+            position: relative;
+            border: 0.5px solid var(--gold);
+        }
+
+        /* Micro-Typography Branding */
+        .top-branding {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            text-align: center;
+            font-family: 'JetBrains Mono';
+            font-size: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            opacity: 0.4;
+        }
+
+        .header { 
+            text-align: center; 
+            margin-bottom: 70px; 
+        }
+        
+        .logo-main { 
+            font-family: 'Inter'; 
+            letter-spacing: 15px; 
+            font-weight: 100; 
+            font-size: 1.1rem; 
+            text-transform: uppercase; 
+            margin-bottom: 15px;
+            color: #000;
+        }
+
+        .status-badge {
+            font-family: 'JetBrains Mono';
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #fff;
+            background: var(--dark);
+            padding: 5px 20px;
+            display: inline-block;
+        }
+
+        .note-body { 
+            font-family: 'Playfair Display', serif; 
+            line-height: 2.2;
+            font-size: 1.15rem;
+            margin-bottom: 60px;
+            font-weight: 400;
+        }
+
+        .handwritten {
+            font-family: 'Mrs Saint Delafield', cursive;
+            font-size: 3.2rem;
+            color: #2c3e50;
+            display: inline-block;
+            transform: rotate(-1deg);
+            margin: 0 10px;
+        }
+
+        /* Manifest Data Styling */
+        .manifest {
+            border-top: 1px solid #eee;
+            padding-top: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .data-point { margin-bottom: 15px; }
+
+        .label {
+            font-family: 'JetBrains Mono';
+            font-size: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #999;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .value {
+            font-family: 'Inter';
+            font-weight: 400;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #000;
+        }
+
+        /* Holographic Security Key Section */
+        .security-strip {
+            grid-column: span 2;
+            margin-top: 20px;
+            background: #f8f8f8;
+            padding: 30px;
+            border: 1px solid #efefef;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Holographic Shine Effect */
+        .security-strip::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(192, 160, 128, 0.1), transparent);
+            animation: shine 6s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 150%; }
+            100% { left: 150%; }
+        }
+
+        .key-title {
+            font-family: 'JetBrains Mono';
+            font-size: 0.5rem;
+            color: var(--gold);
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .key-code {
+            font-family: 'JetBrains Mono';
+            font-size: 1.8rem;
+            letter-spacing: 12px;
+            font-weight: 100;
+            color: #000;
+        }
+
+        /* The Animated Wax Seal */
+        .wax-seal {
+            position: absolute;
+            bottom: -35px;
+            right: 80px;
+            width: 80px;
+            height: 80px;
+            background: #6e1414;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.1);
+            font-size: 1.2rem;
+            box-shadow: 
+                0 10px 30px rgba(0,0,0,0.4),
+                inset 0 0 15px rgba(0,0,0,0.5);
+            transform: rotate(-5deg);
+            cursor: help;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+        }
+
+        .wax-seal:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .wax-seal::before {
+            content: 'TH';
+            border: 1px solid rgba(255,255,255,0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .actions {
+            position: fixed;
+            bottom: 40px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-minimal {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+            padding: 15px 40px;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.5s;
+        }
+
+        .btn-minimal:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            letter-spacing: 6px;
+        }
+
+        @media print {
+            .actions, .wax-seal { display: none; }
+            body { background: white; padding: 0; }
+            .heritage-note { box-shadow: none; border: none; padding: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="heritage-note">
+        <div class="top-branding">Classified Correspondence • Heritage Estate Group</div>
+        
+        <div class="inner-frame">
+            <div class="header">
+                <div class="logo-main">THMS Heritage</div>
+                <div class="status-badge">Confirmed</div>
+            </div>
+
+            <div class="note-body">
+                We are honored to officially confirm your placement within our heritage portfolio. 
+                Your residency at <span class="handwritten" id="res-dest">The Giza Complex</span> 
+                has been authorized. We have prepared the <span class="handwritten" id="res-opt">Royal Suite</span> 
+                for your private arrival on <span class="handwritten" id="res-date">January 19th</span>.
+            </div>
+
+            <div class="manifest">
+                <div class="data-point">
+                    <span class="label">Archive Ref</span>
+                    <span class="value" id="res-ref">TH-000000</span>
+                </div>
+                <div class="data-point" style="text-align: right;">
+                    <span class="label">Status</span>
+                    <span class="value" style="color: #27ae60;">Room Available</span>
+                </div>
+                <div class="data-point">
+                    <span class="label">Manifest size</span>
+                    <span class="value" id="res-guests">01 Attendee</span>
+                </div>
+                <div class="data-point" style="text-align: right;">
+                    <span class="label">Issued By</span>
+                    <span class="value">Concierge Archive</span>
+                </div>
+
+                <div class="security-strip">
+                    <span class="key-title">Unique Estate Access Key</span>
+                    <div class="key-code" id="res-key">--- ---</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wax-seal"></div>
+    </div>
+
+    <div class="actions">
+        <a href="index.html" class="btn-minimal">Home Portfolio</a>
+        <button class="btn-minimal" onclick="window.print()">Physical Export</button>
+    </div>
+
+    <script>
+        const data = JSON.parse(localStorage.getItem('userBooking'));
+
+        if (data) {
+            document.getElementById('res-dest').innerText = data.dest;
+            document.getElementById('res-opt').innerText = data.option;
+            
+            const dateObj = new Date(data.date);
+            const options = { month: 'long', day: 'numeric', year: 'numeric' };
+            document.getElementById('res-date').innerText = dateObj.toLocaleDateString('en-US', options);
+
+            document.getElementById('res-guests').innerText = data.guests.padStart(2, '0') + (data.guests > 1 ? " Attendees" : " Attendee");
+            document.getElementById('res-ref').innerText = data.ref;
+            
+            const prefix = data.dest.substring(0, 3).toUpperCase();
+            const roomNum = Math.floor(1000 + Math.random() * 8999);
+            document.getElementById('res-key').innerText = `${prefix} ${roomNum}`;
+
+        } else {
+            document.querySelector('.inner-frame').innerHTML = `
+                <div class="header">
+                    <div class="logo-main">Access Denied</div>
+                    <p style="font-family: 'Playfair Display'; font-style: italic;">No verified reservation found in the archive.</p>
+                    <a href="Booking.html" class="btn-minimal" style="margin-top:20px; display:inline-block; border-color:black; color:black;">Return to Portal</a>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Field Sketches | THMS Archive</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Inter:wght@200;400;600&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root { 
+      --gold: #c0a080; 
+      --paper: #f4f1ea; 
+      --ink: #1a1a1a;
+      --dark: #0f0f0f;
+    }
+
+    /* Airplane Cursor */
+    * { cursor: none !important; box-sizing: border-box; }
+    #custom-cursor {
+      position: fixed; top: 0; left: 0; width: 20px; height: 20px;
+      color: var(--gold); font-size: 1.2rem; pointer-events: none;
+      z-index: 10000; transform: translate(-50%, -50%);
+      transition: transform 0.1s ease-out;
+    }
+
+    body { 
+      background: var(--dark); 
+      margin: 0; 
+      display: flex; justify-content: center; align-items: center; 
+      height: 100vh; font-family: 'Inter', sans-serif;
+      overflow: hidden;
+    }
+
+    .ledger-wrapper {
+      width: 95vw; height: 90vh;
+      display: flex;
+      background: #1a1a1a;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+    }
+
+    /* LEFT SIDE: DRAFTING BOARD */
+    .drafting-board {
+      flex: 1.2;
+      position: relative;
+      overflow: hidden;
+      background: #111;
+      display: flex; justify-content: center; align-items: center;
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .sketch-main {
+      width: 80%; height: 80%;
+      object-fit: contain;
+      filter: grayscale(1) contrast(1.1) brightness(0.8);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0.6;
+    }
+
+    /* RIGHT SIDE: SKETCHBOOK PAPER */
+    .ledger-paper {
+      flex: 1;
+      background: var(--paper);
+      padding: 50px;
+      overflow-y: auto;
+      color: var(--ink);
+      position: relative;
+    }
+
+    .nav-pill {
+      position: absolute; top: 35px; right: 40px;
+      display: flex; gap: 20px; z-index: 10;
+    }
+
+    .nav-pill a {
+      text-decoration: none; font-size: 0.65rem; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--ink); font-weight: 600;
+      opacity: 0.4; transition: 0.3s;
+    }
+
+    .nav-pill a:hover, .nav-pill a.active { opacity: 1; color: var(--gold); }
+
+    .back-btn {
+      position: absolute; top: 35px; left: 35px;
+      z-index: 10; color: white; text-decoration: none;
+      font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .handwritten { 
+      font-family: 'Mrs Saint Delafield', cursive; 
+      font-size: 2.8rem; color: var(--gold); 
+      display: block;
+    }
+
+    .archive-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-style: italic;
+      margin-bottom: 25px; line-height: 1.2;
+    }
+
+    .body-text {
+      font-size: 0.9rem; line-height: 1.8; opacity: 0.7;
+      font-weight: 300; margin-bottom: 25px;
+    }
+
+    /* CIRCLE PHOTO STACK */
+    .photo-stack {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 30px 0;
+      padding: 15px 0;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .asset-thumb {
+      width: 85px; 
+      height: 85px; 
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      filter: sepia(0.3);
+    }
+
+    .asset-thumb:hover {
+      transform: scale(1.15) translateY(-5px);
+      filter: sepia(0);
+      border-color: var(--ink);
+    }
+
+    .ledger-paper::-webkit-scrollbar { width: 4px; }
+    .ledger-paper::-webkit-scrollbar-thumb { background: var(--gold); }
+  </style>
+</head>
+<body>
+
+  <div id="custom-cursor"><i class="fas fa-plane"></i></div>
+
+  <div class="ledger-wrapper">
+    <a href="Journal.html" class="back-btn">← Back</a>
+
+    <div class="drafting-board">
+      <img src="https://images.unsplash.com/photo-1599110335164-9645f1969b62?auto=format&fit=crop&q=80&w=1000" class="sketch-main" id="main-sketch">
+      <div style="position: absolute; bottom: 40px; left: 40px; color: rgba(255,255,255,0.2); font-size: 0.6rem; letter-spacing: 4px; text-transform: uppercase;">
+        Field Study / Serial: SK-902
+      </div>
+    </div>
+
+    <div class="ledger-paper">
+      <div class="nav-pill">
+        <a href="Journal.html">History</a>
+        <a href="Maps.html">Maps</a>
+        <a href="Sketches.html" class="active">Sketches</a>
+      </div>
+
+      <span class="handwritten">Artist's Portfolio</span>
+      <h1 class="archive-title">Visual Narratives & <br>Architectural Studies</h1>
+
+      <p class="body-text">
+        Before the lens, there was the lead. These graphite and charcoal studies serve as the primary documentation of structural integrity, capturing the "soul" of these monuments before modern intervention.
+      </p>
+
+      <p class="body-text">
+        Every stroke is a measurement; every shadow is a record of light-play against ancient stone. We utilize these tactile renderings to guide our digital twin reconstructions.
+      </p>
+
+      <h3 style="font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; opacity: 0.5;">Appendix / Graphite Ref.</h3>
+      
+      <div class="photo-stack">
+        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=400" class="asset-thumb" onmouseover="showSketch(this.src)">
+        <img src="https://images.unsplash.com/photo-1564507592333-c60657eaa0ae?auto=format&fit=crop&q=80&w=400" class="asset-thumb" onmouseover="showSketch(this.src)">
+        <img src="https://images.unsplash.com/photo-1523731407965-2430cd12f5e4?auto=format&fit=crop&q=80&w=400" class="asset-thumb" onmouseover="showSketch(this.src)">
+        <img src="https://images.unsplash.com/photo-1542708993627-b6e5bbae43c4?auto=format&fit=crop&q=80&w=400" class="asset-thumb" onmouseover="showSketch(this.src)">
+      </div>
+
+      <p class="body-text">
+        The sketch is a form of slow-looking. By tracing the columns of Luxor or the symmetry of the Taj, we uncover architectural secrets often missed by rapid laser scanning.
+      </p>
+
+      <div style="margin-top: 40px; text-align: right;">
+        <span class="handwritten" style="font-size: 1.2rem;">Authored by</span><br>
+        <span class="handwritten" style="color: var(--ink); font-size: 2.2rem;">Alexander Thorne</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const cursor = document.getElementById('custom-cursor');
+    let prevX = 0;
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      let rotation = e.clientX > prevX ? 45 : -45;
+      cursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+      prevX = e.clientX;
+    });
+
+    function showSketch(url) {
+      const main = document.getElementById('main-sketch');
+      main.style.opacity = '0';
+      main.style.transform = 'scale(0.95)';
+      
+      setTimeout(() => {
+        main.src = url;
+        main.style.opacity = '0.6';
+        main.style.transform = 'scale(1)';
+      }, 400);
+    }
+  </script>
+</body>
+</html>

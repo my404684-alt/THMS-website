@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Reservations | THMS Heritage</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400;600&family=JetBrains+Mono:wght@300&display=swap" rel="stylesheet">
+
+  <style>
+    :root { 
+      --gold: #c0a080; 
+      --dark: #070707; 
+      --glass: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --ease: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    
+    * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', sans-serif; margin: 0; color: #fff; background: var(--dark); overflow-x: hidden; }
+
+    /* Navigation */
+    .main-nav { 
+        display: flex; justify-content: center; gap: 45px; padding: 1.8rem 0; 
+        background: rgba(7,7,7,0.8); border-bottom: 1px solid var(--glass-border); 
+        position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(15px);
+    }
+    .main-nav a { 
+        text-decoration: none; color: rgba(255,255,255,0.6); font-weight: 400; 
+        text-transform: uppercase; font-size: 0.65rem; letter-spacing: 3px; 
+        transition: 0.3s var(--ease);
+    }
+    .main-nav a:hover, .main-nav a.active { color: var(--gold); }
+
+    .booking-wrapper { display: flex; min-height: 100vh; position: relative; }
+
+    /* The Cinematic Background Layer */
+    #dynamic-bg { 
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+      background: linear-gradient(to right, rgba(7,7,7,0.9), rgba(7,7,7,0.4)), url('https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?w=1600&q=80'); 
+      background-size: cover; background-position: center; 
+      transition: background-image 1.2s var(--ease), opacity 0.8s ease; z-index: -1;
+      animation: kenBurns 40s infinite alternate;
+    }
+
+    @keyframes kenBurns { from { transform: scale(1); } to { transform: scale(1.15); } }
+
+    /* Left Side - Hero Titles */
+    .booking-visual { flex: 1; padding: 80px; display: flex; flex-direction: column; justify-content: flex-end; }
+    .serif-title { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400; }
+    
+    #dest-loc { text-transform: uppercase; letter-spacing: 6px; font-size: 0.75rem; color: var(--gold); margin-bottom: 10px; opacity: 0.8; }
+    #dest-title { font-size: 5rem; line-height: 0.9; margin-bottom: 20px; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+    /* Right Side - Form Container */
+    .booking-form-area { flex: 1.2; padding: 80px 8%; position: relative; z-index: 2; }
+    
+    .form-card {
+        background: var(--glass);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        padding: 50px;
+        border-radius: 4px;
+    }
+
+    .service-toggle { display: flex; margin-bottom: 40px; gap: 20px; }
+    .toggle-btn { 
+      padding: 10px 0; border: none; background: transparent; cursor: pointer; 
+      text-transform: uppercase; letter-spacing: 2px; font-size: 0.6rem; 
+      font-weight: 700; color: rgba(255,255,255,0.4); position: relative;
+      transition: 0.3s;
+    }
+    .toggle-btn.active { color: var(--gold); }
+    .toggle-btn.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px; background: var(--gold); }
+
+    /* Custom Selection Cards */
+    .choice-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; margin: 20px 0 40px; }
+    .choice-card { position: relative; aspect-ratio: 3/4; cursor: pointer; overflow: hidden; border-radius: 2px; border: 1px solid transparent; transition: 0.5s var(--ease); }
+    .choice-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.8s var(--ease); filter: grayscale(0.5); }
+    .choice-card:hover img { opacity: 0.8; filter: grayscale(0); }
+    .choice-card.active { border-color: var(--gold); box-shadow: 0 0 20px rgba(192, 160, 128, 0.2); }
+    .choice-card.active img { opacity: 1; filter: grayscale(0); transform: scale(1.1); }
+    
+    .choice-label { 
+      position: absolute; bottom: 0; width: 100%; background: linear-gradient(transparent, rgba(0,0,0,0.9)); 
+      color: white; font-size: 0.55rem; text-align: center; padding: 20px 10px 10px; 
+      text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+    }
+
+    /* Form Fields */
+    .input-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; }
+    .input-group label { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; text-transform: uppercase; color: var(--gold); letter-spacing: 2px; }
+    
+    .input-group input, .input-group select { 
+        padding: 12px 0; border: none; border-bottom: 1px solid var(--glass-border); 
+        background: transparent; color: white; font-size: 1rem; outline: none; 
+        transition: 0.3s; width: 100%;
+    }
+    .input-group select option { background: var(--dark); color: white; }
+    .input-group input:focus { border-color: var(--gold); }
+
+    .btn-reserve { 
+      margin-top: 30px; background: var(--gold); color: #000; border: none; 
+      padding: 22px; letter-spacing: 4px; text-transform: uppercase; font-size: 0.75rem; font-weight: 700;
+      cursor: pointer; width: 100%; transition: 0.4s var(--ease);
+    }
+    .btn-reserve:hover { background: #fff; letter-spacing: 6px; transform: translateY(-2px); }
+
+    .option-pane { display: none; }
+    .option-pane.active { display: block; animation: slideUp 0.6s var(--ease); }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 1100px) { 
+      .booking-wrapper { flex-direction: column; } 
+      .booking-visual { height: 40vh; padding: 40px; } 
+      #dest-title { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="main-nav">
+    <a href="index.html">Home</a>
+    <a href="Destinations.html">Destinations</a>
+    <a href="Booking.html" class="active">Reservations</a>
+    <a href="contact.html">Concierge</a>
+  </nav>
+
+  <div id="dynamic-bg"></div>
+
+  <main class="booking-wrapper">
+    <section class="booking-visual">
+      <p id="dest-loc">Giza • Egypt</p>
+      <h2 id="dest-title" class="serif-title">The Giza<br>Complex</h2>
+    </section>
+
+    <section class="booking-form-area">
+      <div class="form-card">
+        <div class="form-header" style="margin-bottom: 40px;">
+          <h1 class="serif-title" style="font-size: 2.2rem; margin-bottom: 10px;">Placement Request</h1>
+          <p style="color: rgba(255,255,255,0.5); font-size: 0.85rem; font-weight: 300; letter-spacing: 0.5px;">Please allow our curators 24 hours to review your request.</p>
+        </div>
+
+        <div class="service-toggle">
+          <button class="toggle-btn active" onclick="switchService(event, 'stay')">Stay</button>
+          <button class="toggle-btn" onclick="switchService(event, 'dining')">Culinary</button>
+        </div>
+
+        <form id="bookingForm">
+          <div class="input-group">
+            <label>01. Destination Portfolio</label>
+            <select required id="locationSelect" onchange="updateVisual()">
+              <optgroup label="Ancient Wonders">
+                  <option value="giza" data-img="https://images.unsplash.com/photo-1503177119275-0aa32b3a9368" selected>The Giza Complex — Egypt</option>
+                  <option value="petra" data-img="https://images.unsplash.com/photo-1580619305218-8423a7ef79b4">The Rose City — Jordan</option>
+                  <option value="machu" data-img="https://images.unsplash.com/photo-1518709268805-4e9042af9f23">Incan Citadel — Peru</option>
+                  <option value="colosseum" data-img="https://images.unsplash.com/photo-1552832230-c0197dd311b5">Flavian Theatre — Italy</option>
+              </optgroup>
+              <optgroup label="Imperial Estates">
+                  <option value="kyoto" data-img="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e">Kyoto Imperial — Japan</option>
+                  <option value="wall" data-img="https://images.unsplash.com/photo-1508804185872-d7badad00f7d">The Watchtowers — China</option>
+                  <option value="taj" data-img="https://images.unsplash.com/photo-1548013146-72479768bbaa">Marble Poem — India</option>
+                  <option value="angkor" data-img="https://images.unsplash.com/photo-1544376374-8b8fd4214f30">Khmer Majesty — Cambodia</option>
+              </optgroup>
+              <optgroup label="Natural & Coastal">
+                  <option value="oia" data-img="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff">Cycladic Heights — Greece</option>
+                  <option value="mara" data-img="https://images.unsplash.com/photo-1516426122078-c23e76319801">Infinite Plains — Tanzania</option>
+                  <option value="positano" data-img="https://images.unsplash.com/photo-1533903345306-15d1c30952de">The Vertical City — Italy</option>
+                  <option value="cappa" data-img="https://images.unsplash.com/photo-1541167760496-162955ed8a9f">Surreal Valleys — Turkey</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div id="stay-options" class="option-pane active">
+            <label style="font-family: 'JetBrains Mono'; font-size: 0.6rem; color: var(--gold);">02. Select Accomodation</label>
+            <div class="choice-grid">
+              <div class="choice-card active" onclick="selectChoice(this)"><img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400"><div class="choice-label">Royal Suite</div></div>
+              <div class="choice-card" onclick="selectChoice(this)"><img src="https://images.unsplash.com/photo-1590490359683-658d3d23f972?w=400"><div class="choice-label">Private Villa</div></div>
+              <div class="choice-card" onclick="selectChoice(this)"><img src="https://images.unsplash.com/photo-1563298723-dcfebaa392e3?w=400"><div class="choice-label">Heritage Riad</div></div>
+            </div>
+          </div>
+
+          <div id="dining-options" class="option-pane">
+            <label style="font-family: 'JetBrains Mono'; font-size: 0.6rem; color: var(--gold);">02. Select Concept</label>
+            <div class="choice-grid">
+              <div class="choice-card active" onclick="selectChoice(this)"><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400"><div class="choice-label">Tasting Table</div></div>
+              <div class="choice-card" onclick="selectChoice(this)"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400"><div class="choice-label">Sunset Terrace</div></div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 10px;">
+            <div class="input-group">
+              <label>Arrival</label>
+              <input type="date" required>
+            </div>
+            <div class="input-group">
+              <label>Guests</label>
+              <input type="number" value="2" min="1" required>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-reserve">Request Private Consultation</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function switchService(e, type) {
+      document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+      e.target.classList.add('active');
+      const stay = document.getElementById('stay-options');
+      const dine = document.getElementById('dining-options');
+      stay.classList.toggle('active', type === 'stay');
+      dine.classList.toggle('active', type === 'dining');
+    }
+
+    function updateVisual() {
+      const sel = document.getElementById('locationSelect');
+      const opt = sel.options[sel.selectedIndex];
+      const bg = document.getElementById('dynamic-bg');
+      const imgUrl = opt.getAttribute('data-img') + "?w=1600&q=80";
+      
+      bg.style.opacity = '0.3';
+      setTimeout(() => {
+        bg.style.backgroundImage = `linear-gradient(to right, rgba(7,7,7,0.9), rgba(7,7,7,0.4)), url('${imgUrl}')`;
+        bg.style.opacity = '1';
+      }, 400);
+      
+      const [title, location] = opt.text.split(' — ');
+      document.getElementById('dest-title').innerHTML = title.replace(' ', '<br>');
+      document.getElementById('dest-loc').innerText = location || "Heritage Collection";
+    }
+
+    function selectChoice(el) {
+      el.parentElement.querySelectorAll('.choice-card').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    // REDIRECT LOGIC
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      window.location.href = 'bookingreceipt.html';
+    });
+  </script>
+</body>
+</html>

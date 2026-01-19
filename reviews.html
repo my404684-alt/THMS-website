@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Member Dispatches | THMS Heritage</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root { 
+      --gold: #c0a080; 
+      --text: #2c3e50; 
+      --bg: #ffffff; 
+      --soft-bg: #fdfcfb;
+      --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { cursor: none !important; box-sizing: border-box; }
+    
+    #custom-cursor {
+      position: fixed; top: 0; left: 0; width: 30px; height: 30px;
+      color: var(--gold); font-size: 1.5rem; pointer-events: none;
+      z-index: 10000; transform: translate(-50%, -50%); transition: transform 0.1s ease-out;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    body { font-family: 'Inter', sans-serif; margin: 0; color: var(--text); background: var(--bg); line-height: 1.8; overflow-x: hidden; }
+    h1, h2, h3, .serif { font-family: 'Playfair Display', serif; font-weight: 400; }
+
+    /* Navigation */
+    .main-nav { 
+      display: flex; justify-content: center; gap: 40px; padding: 1.5rem 0; 
+      background: rgba(255, 255, 255, 0.98); border-bottom: 1px solid #eee; 
+      position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px);
+    }
+    .main-nav a { text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px; transition: 0.3s; }
+    .main-nav a:hover { color: var(--gold); }
+
+    /* Review Hero */
+    .review-hero {
+      height: 50vh;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1600&q=80');
+      background-size: cover; background-position: center;
+      display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center;
+    }
+    .review-hero h1 { font-size: 4rem; margin: 0; }
+    .review-hero p { text-transform: uppercase; letter-spacing: 5px; font-size: 0.9rem; color: var(--gold); margin-top: 10px; }
+
+    /* Review Grid */
+    .review-container { max-width: 1200px; margin: -100px auto 100px; padding: 0 5%; position: relative; z-index: 10; }
+    .review-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+
+    .review-card {
+      background: white; padding: 50px; border-radius: 2px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+      border-top: 4px solid var(--gold);
+      transition: var(--transition);
+      opacity: 0; transform: translateY(30px);
+    }
+    .review-card.active { opacity: 1; transform: translateY(0); }
+    .review-card:hover { transform: translateY(-15px); }
+    
+    .quote-mark { font-family: 'Playfair Display'; font-size: 4rem; color: var(--gold); opacity: 0.2; line-height: 0; margin-bottom: 20px; display: block; }
+    .review-content { font-family: 'Playfair Display'; font-style: italic; font-size: 1.3rem; margin-bottom: 30px; color: #444; }
+    .reviewer-meta { border-top: 1px solid #eee; padding-top: 20px; display: flex; align-items: center; gap: 15px; }
+    .reviewer-meta h4 { margin: 0; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; }
+    .reviewer-meta span { font-size: 0.7rem; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; }
+
+    footer { background: #1a1a1a; color: white; padding: 4rem 5%; text-align: center; }
+  </style>
+</head>
+<body>
+
+  <div id="custom-cursor"><i class="fas fa-plane"></i></div>
+
+  <nav class="main-nav">
+    <a href="index.html">HOME</a>
+    <a href="about.html">ABOUT</a>
+    <a href="heritage.html">HERITAGE</a>
+    <a href="destinations.html">DESTINATIONS</a>
+    <a href="booking.html">BOOKINGS</a>
+  </nav>
+
+  <header class="review-hero">
+    <h1>Member Voices</h1>
+    <p>Stories from the Global Collection</p>
+  </header>
+
+  <main class="review-container">
+    <div class="review-grid">
+      <div class="review-card reveal">
+        <span class="quote-mark">“</span>
+        <p class="review-content">Our advisor arranged everything from the private driver to the secret sunrise tour of the Taj Mahal. An experience beyond the reach of the public.</p>
+        <div class="reviewer-meta">
+          <div>
+            <h4>Tamara Dunn</h4>
+            <span>Virtuoso Member</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card reveal">
+        <span class="quote-mark">“</span>
+        <p class="review-content">Pioneered curated bespoke services that move beyond traditional itineraries. We truly felt like we were traveling in our own world.</p>
+        <div class="reviewer-meta">
+          <div>
+            <h4>Julian Sterling</h4>
+            <span>Heritage Portfolio Guest</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card reveal">
+        <span class="quote-mark">“</span>
+        <p class="review-content">The attention to detail and proactive planning transformed a complicated international tour into a seamless journey.</p>
+        <div class="reviewer-meta">
+          <div>
+            <h4>Mike Browder</h4>
+            <span>Private Client since 2018</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="serif" style="font-size: 1.5rem; color: var(--gold); letter-spacing: 4px;">THMS</div>
+    <p style="font-size: 0.7rem; opacity: 0.4; margin-top: 10px;">© 2026 TOURISM HERITAGE MANAGEMENT SYSTEM. ALL RIGHTS RESERVED.</p>
+  </footer>
+
+  <script>
+    // Airplane Cursor Logic
+    const cursor = document.getElementById('custom-cursor');
+    let prevX = 0;
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      let rotation = e.clientX > prevX ? 45 : -45;
+      cursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+      prevX = e.clientX;
+    });
+
+    // Scroll Reveal Logic
+    const observerOptions = { threshold: 0.15 };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

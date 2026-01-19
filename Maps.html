@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geospatial Archive | THMS Ledger</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Inter:wght@200;400;600&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root { 
+      --gold: #c0a080; 
+      --paper: #f4f1ea; 
+      --ink: #1a1a1a;
+      --dark: #0f0f0f;
+    }
+
+    /* Airplane Cursor */
+    * { cursor: none !important; box-sizing: border-box; }
+    #custom-cursor {
+      position: fixed; top: 0; left: 0; width: 20px; height: 20px;
+      color: var(--gold); font-size: 1.2rem; pointer-events: none;
+      z-index: 10000; transform: translate(-50%, -50%);
+      transition: transform 0.1s ease-out;
+    }
+
+    body { 
+      background: var(--dark); 
+      margin: 0; 
+      display: flex; justify-content: center; align-items: center; 
+      height: 100vh; font-family: 'Inter', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Ledger Wrapper */
+    .ledger-wrapper {
+      width: 95vw; height: 90vh;
+      display: flex;
+      background: #1a1a1a;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+    }
+
+    /* LEFT SIDE: MAP DISPLAY */
+    .map-display {
+      flex: 1.2;
+      position: relative;
+      overflow: hidden;
+      border-right: 1px solid rgba(255,255,255,0.1);
+      background: #000;
+    }
+
+    .map-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.6;
+      filter: sepia(0.4) contrast(1.1);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .map-grid-lines {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: linear-gradient(rgba(192, 160, 128, 0.1) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(192, 160, 128, 0.1) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* RIGHT SIDE: LEDGER PAPER */
+    .ledger-paper {
+      flex: 1;
+      background: var(--paper);
+      padding: 50px;
+      overflow-y: auto;
+      color: var(--ink);
+      position: relative;
+    }
+
+    .nav-pill {
+      position: absolute; top: 35px; right: 40px;
+      display: flex; gap: 20px; z-index: 10;
+    }
+
+    .nav-pill a {
+      text-decoration: none; font-size: 0.65rem; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--ink); font-weight: 600;
+      opacity: 0.4; transition: 0.3s;
+    }
+
+    .nav-pill a:hover, .nav-pill a.active { opacity: 1; color: var(--gold); }
+
+    .back-btn {
+      position: absolute; top: 35px; left: 35px;
+      z-index: 10; color: white; text-decoration: none;
+      font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .handwritten { 
+      font-family: 'Mrs Saint Delafield', cursive; 
+      font-size: 2.8rem; color: var(--gold); 
+      display: block;
+    }
+
+    .archive-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-style: italic;
+      margin-bottom: 25px; line-height: 1.2;
+    }
+
+    .body-text {
+      font-size: 0.9rem; line-height: 1.8; opacity: 0.7;
+      font-weight: 300; margin-bottom: 25px;
+    }
+
+    /* CIRCLE PHOTO STACK */
+    .photo-stack {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 30px 0;
+      padding: 15px 0;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .asset-thumb {
+      width: 85px; 
+      height: 85px; 
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      filter: sepia(0.3);
+    }
+
+    .asset-thumb:hover {
+      transform: scale(1.15) translateY(-5px);
+      filter: sepia(0);
+      border-color: var(--ink);
+    }
+
+    /* REGION LIST */
+    .region-item {
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-decoration: none;
+      color: var(--ink);
+      transition: 0.3s;
+    }
+    .region-item:hover { transform: translateX(5px); color: var(--gold); }
+
+    .ledger-paper::-webkit-scrollbar { width: 4px; }
+    .ledger-paper::-webkit-scrollbar-thumb { background: var(--gold); }
+  </style>
+</head>
+<body>
+
+  <div id="custom-cursor"><i class="fas fa-plane"></i></div>
+
+  <div class="ledger-wrapper">
+    <a href="Journal.html" class="back-btn">← Back</a>
+
+    <div class="map-display">
+      <div class="map-grid-lines"></div>
+      <img src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&q=80&w=1200" class="map-img" id="active-map">
+    </div>
+
+    <div class="ledger-paper">
+      <div class="nav-pill">
+        <a href="Journal.html">History</a>
+        <a href="Maps.html" class="active">Maps</a>
+        <a href="Sketches.html">Sketches</a>
+      </div>
+
+      <span class="handwritten">Cartographic Log</span>
+      <h1 class="archive-title">Geospatial Records & <br>Territorial Mapping</h1>
+
+      <p class="body-text">
+        The following charts represent the core heritage zones identified in the 1926 survey. Our geospatial archive utilizes overlapping coordinate data to reconstruct lost topographical features.
+      </p>
+
+      <div class="region-list">
+        <a href="#" class="region-item" onclick="updateMap('https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&q=80&w=1200')">
+          <div>
+            <span style="font-size: 0.6rem; letter-spacing: 2px; opacity: 0.5;">COORD: 34.55° N, 18.04° E</span>
+            <div style="font-family: 'Playfair Display'; font-size: 1.2rem;">Mediterranean Basin</div>
+          </div>
+          <i class="fas fa-location-dot" style="font-size: 0.8rem; opacity: 0.3;"></i>
+        </a>
+        <a href="#" class="region-item" onclick="updateMap('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1200')">
+          <div>
+            <span style="font-size: 0.6rem; letter-spacing: 2px; opacity: 0.5;">COORD: 35.01° N, 135.76° E</span>
+            <div style="font-family: 'Playfair Display'; font-size: 1.2rem;">Kyoto Imperial Grid</div>
+          </div>
+          <i class="fas fa-location-dot" style="font-size: 0.8rem; opacity: 0.3;"></i>
+        </a>
+      </div>
+
+      <h3 style="font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; margin-top: 30px; opacity: 0.5;">Satellite Evidence</h3>
+      
+      <div class="photo-stack">
+        <img src="https://images.unsplash.com/photo-1449156001533-cb39c7715830?auto=format&fit=crop&q=80&w=400" class="asset-thumb" onclick="updateMap(this.src)">
+        <img src="https://images.unsplash.com/photo-1473186578172-c141e6798ee4?auto=format&fit=crop&q=80&w=400" class="asset-thumb" onclick="updateMap(this.src)">
+        <img src="https://images.unsplash.com/photo-1533331639-74f1863c7b3c?auto=format&fit=crop&q=80&w=400" class="asset-thumb" onclick="updateMap(this.src)">
+        <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80&w=400" class="asset-thumb" onclick="updateMap(this.src)">
+      </div>
+
+      <p class="body-text">
+        Each entry above serves as a digital twin to our physical ledger. By integrating thermal imaging with historical topography, we are able to visualize the "hidden architecture" buried beneath centuries of sediment.
+      </p>
+
+      <div style="margin-top: 40px; text-align: right;">
+        <span class="handwritten" style="font-size: 1.2rem;">Verified by</span><br>
+        <span class="handwritten" style="color: var(--ink); font-size: 2.2rem;">The Cartographer</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const cursor = document.getElementById('custom-cursor');
+    let prevX = 0;
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      let rotation = e.clientX > prevX ? 45 : -45;
+      cursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+      prevX = e.clientX;
+    });
+
+    function updateMap(imgUrl) {
+      const mapImg = document.getElementById('active-map');
+      mapImg.style.opacity = '0';
+      mapImg.style.transform = 'scale(1.1)'; // Slight zoom out effect on swap
+      setTimeout(() => {
+        mapImg.src = imgUrl;
+        mapImg.style.opacity = '0.6';
+        mapImg.style.transform = 'scale(1)';
+      }, 400);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THMS | Heritage Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    :root { 
+      --gold: #c0a080; 
+      --text: #2c3e50; 
+      --bg: #ffffff; 
+      --dark: #0a0a0a; 
+      --soft-gray: #f9f8f6;
+      --border: rgba(0,0,0,0.08);
+      --transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Airplane Cursor */
+    * { cursor: none !important; }
+    #custom-cursor {
+      position: fixed; top: 0; left: 0; width: 25px; height: 25px;
+      color: var(--gold); font-size: 1rem; pointer-events: none;
+      z-index: 10000; transform: translate(-50%, -50%);
+      transition: transform 0.1s ease-out; display: flex; align-items: center; justify-content: center;
+    }
+
+    body { font-family: 'Inter', sans-serif; margin: 0; color: var(--text); background: var(--bg); overflow-x: hidden; }
+    h1, h2, h3, .serif { font-family: 'Playfair Display', serif; font-weight: 400; }
+
+    /* Main Navigation */
+    nav.main-nav { 
+      display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 5%;
+      background: var(--bg); color: var(--dark); position: sticky; top: 0; z-index: 1000;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand-logo { font-family: 'Playfair Display'; font-weight: 700; font-size: 1.2rem; letter-spacing: 5px; color: var(--dark); text-decoration: none; }
+    .brand-logo span { color: var(--gold); }
+    
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a { text-decoration: none; color: var(--text); font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; opacity: 0.6; }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--gold); }
+
+    /* Service Bar */
+    .service-ribbon {
+      background: var(--soft-gray);
+      display: flex; justify-content: center; gap: 80px; padding: 15px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .ribbon-item {
+      display: flex; align-items: center; gap: 10px;
+      color: var(--dark); text-decoration: none; opacity: 0.4; transition: 0.4s;
+    }
+    .ribbon-item:hover { opacity: 1; color: var(--gold); }
+    .ribbon-item i { font-size: 0.8rem; }
+    .ribbon-item span { font-size: 0.55rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
+
+    /* Hero Section */
+    .hero { 
+      height: 85vh; position: relative; display: flex; align-items: center; justify-content: center; text-align: center;
+      background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                  url('https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=80&w=1600');
+      background-size: cover; background-position: center; color: white;
+    }
+    .hero-content { max-width: 600px; }
+    .hero p.label { letter-spacing: 12px; font-size: 0.6rem; margin-bottom: 20px; text-transform: uppercase; }
+    .hero h1 { font-size: clamp(1.8rem, 5vw, 3rem); letter-spacing: 1px; margin-bottom: 40px; font-weight: 400; font-style: italic; }
+    
+    .launch-btn {
+      background: white; border: none; color: var(--dark); 
+      padding: 15px 35px; letter-spacing: 2px; font-size: 0.65rem; font-weight: 600;
+      transition: 0.4s; text-decoration: none; text-transform: uppercase; display: inline-block;
+    }
+    .launch-btn:hover { background: var(--gold); color: white; }
+
+    /* Stat Section */
+    .stats-bar { padding: 80px 10%; display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; background: white; border-bottom: 1px solid var(--border); }
+    .stat-item h4 { font-size: 2rem; margin: 0; color: var(--gold); }
+    .stat-item p { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 3px; opacity: 0.5; margin-top: 10px; }
+
+    /* Intro Section */
+    .intro-section { padding: 120px 10%; text-align: center; background: white; }
+    .intro-section h2 { font-size: 2rem; letter-spacing: 1px; margin-bottom: 30px; color: var(--dark); }
+    .intro-section p { max-width: 700px; margin: 0 auto 50px; line-height: 2.2; font-size: 1rem; opacity: 0.7; font-weight: 300; }
+    
+    .action-link { 
+        color: var(--gold); text-decoration: none; font-size: 0.65rem; 
+        letter-spacing: 3px; font-weight: 600; text-transform: uppercase;
+        border-bottom: 1px solid var(--gold); padding-bottom: 8px;
+        transition: 0.3s;
+    }
+    .action-link:hover { color: var(--dark); border-color: var(--dark); }
+
+    /* Heritage Grid */
+    .heritage-preview { padding: 0 5% 150px; background: white; }
+    .heritage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .heritage-card { 
+      position: relative; height: 600px; overflow: hidden; text-decoration: none; 
+      display: flex; align-items: flex-end; padding: 50px;
+    }
+    .heritage-card img { 
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+      object-fit: cover; z-index: 1; transition: transform 2s ease;
+    }
+    .heritage-card:hover img { transform: scale(1.08); }
+    .heritage-card::after { 
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+      background: linear-gradient(transparent, rgba(0,0,0,0.8)); z-index: 2; 
+    }
+    .card-info { position: relative; z-index: 3; color: white; }
+    .card-info span { font-size: 0.6rem; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); }
+    .card-info h3 { font-size: 1.8rem; margin: 15px 0 0; }
+
+    /* Editorial Section */
+    .editorial { padding: 120px 10%; background: var(--soft-gray); display: flex; align-items: center; gap: 80px; }
+    .editorial-img { width: 45%; height: 500px; object-fit: cover; }
+    .editorial-content { width: 55%; }
+    .editorial-content h2 { font-size: 2.5rem; margin-bottom: 25px; }
+
+    /* Newsletter */
+    .newsletter { padding: 100px 10%; background: var(--dark); color: white; text-align: center; }
+    .newsletter h2 { font-size: 1.8rem; margin-bottom: 20px; font-style: italic; }
+    .newsletter input { 
+        background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.2); 
+        padding: 15px; width: 300px; color: white; font-family: 'Inter'; outline: none; text-align: center;
+    }
+    .newsletter button { background: var(--gold); border: none; padding: 15px 40px; color: white; text-transform: uppercase; letter-spacing: 2px; margin-left: 20px; }
+
+    /* Animations */
+    .reveal { opacity: 0; transform: translateY(40px); transition: var(--transition); }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+
+    footer { background: #000; color: white; padding: 6rem 5% 3rem; text-align: center; }
+    .footer-logo { font-size: 1.2rem; letter-spacing: 12px; margin-bottom: 25px; opacity: 0.8; }
+  </style>
+</head>
+<body>
+
+  <div id="custom-cursor"><i class="fas fa-plane"></i></div>
+
+  <nav class="main-nav">
+    <a href="index.html" class="brand-logo">TH<span>MS</span></a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="About.html">About</a>
+      <a href="Destinations.html">Collection</a>
+      <a href="Journal.html">Journal</a> <a href="Booking.html">Reservations</a>
+      <a href="virtualreality.html">VR Portals</a>
+      <a href="Contact.html">Contact</a>
+      <a href="Heritage.html">Heritage</a>
+    </div>
+  </nav>
+
+  <div class="service-ribbon">
+    <a href="Destinations.html" class="ribbon-item"><i class="fas fa-circle"></i><span>Destinations</span></a>
+    <a href="Booking.html" class="ribbon-item"><i class="fas fa-circle"></i><span>Residences</span></a>
+    <a href="Dinning.html" class="ribbon-item"><i class="fas fa-circle"></i><span>Dining</span></a>
+  </div>
+
+  <header class="hero">
+    <div class="hero-content reveal active">
+      <p class="label">Archive 1945</p>
+      <h1>A curated perspective on world heritage.</h1>
+      <div style="display: flex; gap: 15px; justify-content: center;">
+        <a href="Booking.html" class="launch-btn">The Collection</a>
+        <a href="virtualreality.html" class="launch-btn" style="background: transparent; border: 1px solid white; color: white;">Virtual Preview</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="stats-bar reveal">
+    <div class="stat-item"><h4>74</h4><p>Global Estates</p></div>
+    <div class="stat-item"><h4>12</h4><p>World Regions</p></div>
+    <div class="stat-item"><h4>1945</h4><p>Archive Est.</p></div>
+  </section>
+
+  <section class="intro-section reveal">
+    <p class="label" style="color: var(--gold); margin-bottom: 20px;">Our Philosophy</p>
+    <h2>Authentic Immersions</h2>
+    <p>
+      We specialize in the quiet preservation of experience. From the spice routes of the East to the vineyards of the Mediterranean, our role is to provide the connections and the historical context that turns a visit into a legacy.
+    </p>
+    <a href="About.html" class="action-link">Explore our story</a>
+  </section>
+
+  <section class="heritage-preview reveal">
+    <div class="heritage-grid">
+      <a href="Heritage.html" class="heritage-card">
+        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=1200" alt="Cultural Sites">
+        <div class="card-info">
+          <span>The Archives</span>
+          <h3>Historical Landmarks</h3>
+        </div>
+      </a>
+      <a href="Heritage.html" class="heritage-card">
+        <img src="https://images.unsplash.com/photo-1548013146-72479768bbaa?auto=format&fit=crop&q=80&w=1200" alt="World Wonders">
+        <div class="card-info">
+          <span>Curated Selection</span>
+          <h3>Global Wonders</h3>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="editorial reveal">
+    <img src="https://images.unsplash.com/photo-1523731407965-2430cd12f5e4?auto=format&fit=crop&q=80&w=800" class="editorial-img" alt="Journal">
+    <div class="editorial-content">
+      <p class="label" style="color: var(--gold);">Journal</p>
+      <h2>The Art of Discovery</h2>
+      <p style="opacity: 0.6; line-height: 1.8; margin-bottom: 30px;">In our latest archive entry, we explore the forgotten architecture of the Silk Road and the modern efforts to preserve these crumbling masterpieces for the next generation.</p>
+      <a href="Journal.html" class="action-link">Read Journal</a>
+    </div>
+  </section>
+
+  <section class="newsletter reveal">
+    <p class="label" style="color: var(--gold);">Stay Informed</p>
+    <h2>Subscribe to the THMS Archive</h2>
+    <div style="margin-top: 40px;">
+        <input type="email" placeholder="Your Email Address">
+        <button>Join</button>
+    </div>
+  </section>
+
+  <footer>
+    <div class="brand-logo footer-logo" style="color:var(--gold)">TH<span>MS</span></div>
+    <p style="font-size: 0.55rem; opacity: 0.4; letter-spacing: 5px; text-transform: uppercase;">Tourism Heritage Management System</p>
+    <div style="margin-top: 60px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px;">
+        <p style="font-size: 0.5rem; opacity: 0.2;">© 2026 THMS GLOBAL. ALL RIGHTS RESERVED.</p>
+    </div>
+  </footer>
+
+  <script>
+    const cursor = document.getElementById('custom-cursor');
+    let prevX = 0;
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      let rotation = e.clientX > prevX ? 45 : -45;
+      cursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+      prevX = e.clientX;
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

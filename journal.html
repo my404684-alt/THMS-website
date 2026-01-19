@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Digital Ledger | THMS Heritage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Inter:wght@200;400;600&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root { 
+      --gold: #c0a080; 
+      --paper: #f4f1ea; 
+      --ink: #1a1a1a;
+      --glass: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Airplane Cursor */
+    * { cursor: none !important; box-sizing: border-box; }
+    #custom-cursor {
+      position: fixed; top: 0; left: 0; width: 20px; height: 20px;
+      color: var(--gold); font-size: 1.2rem; pointer-events: none;
+      z-index: 10000; transform: translate(-50%, -50%);
+      transition: transform 0.1s ease-out;
+    }
+
+    body { 
+      background: #0f0f0f; 
+      margin: 0; 
+      display: flex; justify-content: center; align-items: center; 
+      height: 100vh; font-family: 'Inter', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Transition Animation */
+    .fade-in { animation: fadeInPage 1.5s ease forwards; }
+    @keyframes fadeInPage {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .ledger-wrapper {
+      width: 95vw;
+      height: 90vh;
+      display: flex;
+      background: #1a1a1a;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+    }
+
+    .ledger-visuals {
+      flex: 1.2;
+      position: relative;
+      overflow: hidden;
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .visual-bg {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(0.7);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .visual-overlay {
+      position: absolute; bottom: 40px; left: 40px;
+      color: white; z-index: 2;
+    }
+
+    .ledger-content {
+      flex: 1;
+      background: var(--paper);
+      padding: 60px;
+      overflow-y: auto;
+      color: var(--ink);
+      position: relative;
+    }
+
+    .ledger-content::-webkit-scrollbar { width: 4px; }
+    .ledger-content::-webkit-scrollbar-thumb { background: var(--gold); }
+
+    .handwritten { 
+      font-family: 'Mrs Saint Delafield', cursive; 
+      font-size: 3rem; color: var(--gold); 
+      margin-bottom: 10px; display: block;
+    }
+
+    .archive-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-style: italic;
+      margin-bottom: 30px; line-height: 1.2;
+    }
+
+    .body-text {
+      font-size: 0.95rem; line-height: 2; opacity: 0.8;
+      font-weight: 400; margin-bottom: 30px;
+    }
+
+    /* Circle Photo Stack */
+    .photo-stack {
+      display: flex;
+      justify-content: space-around;
+      gap: 15px;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      padding: 20px 0;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .archive-photo {
+      width: 100px; 
+      height: 100px; 
+      object-fit: cover;
+      border-radius: 50%; /* Makes them circles */
+      filter: sepia(0.4) grayscale(0.2);
+      transition: 0.5s ease;
+      border: 2px solid var(--gold);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .archive-photo:hover { 
+      filter: sepia(0); 
+      transform: scale(1.1) rotate(5deg);
+      border-color: var(--ink);
+    }
+
+    .nav-pill {
+      position: absolute; top: 40px; right: 40px;
+      display: flex; gap: 20px; z-index: 10;
+    }
+
+    .nav-pill a {
+      text-decoration: none; font-size: 0.6rem; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--ink); font-weight: 600;
+      opacity: 0.4; transition: 0.3s;
+    }
+
+    .nav-pill a:hover, .nav-pill a.active { opacity: 1; color: var(--gold); }
+
+    .back-home {
+      position: absolute; top: 40px; left: 40px;
+      z-index: 10; color: white; text-decoration: none;
+      font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+    }
+  </style>
+</head>
+<body class="fade-in">
+
+  <div id="custom-cursor"><i class="fas fa-plane"></i></div>
+
+  <div class="ledger-wrapper">
+    <a href="index.html" class="back-home">← Return to Globe</a>
+
+    <div class="ledger-visuals">
+      <img src="https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&q=80&w=1200" class="visual-bg" id="main-img">
+      <div class="visual-overlay">
+        <p style="letter-spacing: 5px; font-size: 0.6rem; text-transform: uppercase; color: var(--gold);">Entry No. 842</p>
+        <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem;" id="main-title">Great Pyramid of Giza</h2>
+      </div>
+    </div>
+
+    <div class="ledger-content">
+      <div class="nav-pill">
+        <a href="#" class="active">History</a>
+        <a href="Maps.html">Maps</a> 
+        <a href="Sketches.html">Sketches</a> 
+      </div>
+
+      <span class="handwritten">October 19th, 2026</span>
+      <h1 class="archive-title">Preserving the <br>Eternal Monoliths</h1>
+      
+      <p class="body-text">
+        Commissioned during the Fourth Dynasty for the Pharaoh Khufu, this limestone giant remained the tallest man-made structure on Earth for over 3,800 years. Its construction involved the precise placement of 2.3 million stone blocks, each weighing an average of 2.5 tons—a feat of engineering that defies the limitations of its era.
+      </p>
+
+      <p class="body-text">
+        While time has stripped the pyramid of its polished white Tura limestone casing, the core remains a testament to celestial alignment, its four faces oriented almost exactly to true north. In our modern attempts to digitize this heritage, we find that the handwriting of the original architects is more permanent than any server we could build.
+      </p>
+
+      <h3 style="font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; opacity: 0.5;">Visual Appendices</h3>
+      
+      <div class="photo-stack">
+        <img src="https://images.unsplash.com/photo-1539650116574-8efeb43e2750?auto=format&fit=crop&q=80&w=600" 
+             class="archive-photo" onclick="swapImage(this.src, 'Desert Study #1')">
+        <img src="https://images.unsplash.com/photo-1568322422676-9e713270bbaf?auto=format&fit=crop&q=80&w=600" 
+             class="archive-photo" onclick="swapImage(this.src, 'Excavation Site')">
+        <img src="https://images.unsplash.com/photo-1548013146-72479768bbaa?auto=format&fit=crop&q=80&w=600" 
+             class="archive-photo" onclick="swapImage(this.src, 'Aerial Perspective')">
+        <img src="https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&q=80&w=600" 
+             class="archive-photo" onclick="swapImage(this.src, 'Great Pyramid')">
+      </div>
+
+      <p class="body-text">
+        Current efforts focus on the <strong>ScanPyramids Project</strong>. Using cosmic-ray muon radiography, researchers have discovered a previously unknown internal void situated above the Grand Gallery. This "Big Void" is at least 30 meters long, suggesting that the pyramid still guards secrets that neither grave robbers nor early archaeologists could reach.
+      </p>
+
+      <p class="body-text">
+        Our mission is to bridge the 4,500-year gap between the copper-tool era and the age of digital twin technology, ensuring that the legacy of Khufu remains accessible even as the physical stones face the slow erosion of the desert winds.
+      </p>
+
+      <div style="margin-top: 50px; text-align: right;">
+        <span class="handwritten" style="font-size: 1.5rem;">Authored by</span><br>
+        <span class="handwritten" style="color: var(--ink); font-size: 2.5rem;">The Heritage Curator</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const cursor = document.getElementById('custom-cursor');
+    let prevX = 0;
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      let rotation = e.clientX > prevX ? 45 : -45;
+      cursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+      prevX = e.clientX;
+    });
+
+    function swapImage(src, title) {
+      const mainImg = document.getElementById('main-img');
+      const mainTitle = document.getElementById('main-title');
+      
+      mainImg.style.opacity = '0';
+      setTimeout(() => {
+        mainImg.src = src;
+        mainTitle.innerText = title;
+        mainImg.style.opacity = '1';
+      }, 400);
+    }
+
+    const content = document.querySelector('.ledger-content');
+    const mainImg = document.getElementById('main-img');
+    content.addEventListener('mouseenter', () => { mainImg.style.transform = 'scale(1.05)'; });
+    content.addEventListener('mouseleave', () => { mainImg.style.transform = 'scale(1)'; });
+  </script>
+</body>
+</html>

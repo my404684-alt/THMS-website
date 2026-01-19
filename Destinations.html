@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Destinations | THMS Heritage</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400;600&family=Mrs+Saint+Delafield&family=JetBrains+Mono:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root { 
+      --gold: #c0a080; 
+      --dark: #070707;
+      --text: #ffffff; 
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* --- Navigation --- */
+    .global-nav {
+      position: fixed; top: 0; width: 100%; z-index: 2000;
+      padding: 25px 5%; display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(to bottom, rgba(7,7,7,0.8), transparent);
+    }
+    .nav-logo { font-size: 1.1rem; letter-spacing: 5px; text-decoration: none; color: white; font-weight: 700; }
+    .nav-logo span { color: var(--gold); }
+    .site-links a { 
+      text-decoration: none; color: rgba(255,255,255,0.6); 
+      font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; 
+      margin-left: 30px; transition: 0.3s; 
+    }
+    .site-links a.active { color: var(--gold); }
+
+    /* --- Background Layering --- */
+    .bg-container {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: -1; display: none;
+    }
+    .bg-container.active { display: block; animation: fadeIn 1s ease; }
+    .bg-container img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4); }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .vignette {
+      position: absolute; inset: 0; z-index: 2;
+      background: radial-gradient(circle at 30% 50%, transparent 0%, rgba(7,7,7,0.9) 100%);
+      pointer-events: none;
+    }
+
+    /* --- Content Sections --- */
+    .dest-section {
+      height: 100vh; width: 100%;
+      display: flex; align-items: center;
+      position: relative;
+    }
+
+    .content-wrap {
+      position: relative; z-index: 10;
+      padding: 0 10%; max-width: 850px;
+    }
+
+    .handwritten { 
+      font-family: 'Mrs Saint Delafield', cursive; 
+      font-size: clamp(2rem, 4vw, 3rem); 
+      color: var(--gold); display: block; 
+    }
+
+    h1 { 
+      font-family: 'Playfair Display', serif; 
+      font-size: clamp(2.5rem, 7vw, 5.5rem); 
+      font-style: italic; margin: 10px 0 20px 0; 
+      line-height: 0.9; font-weight: 400;
+    }
+    
+    .tech-specs {
+      display: flex; gap: 20px; margin-bottom: 30px;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+      text-transform: uppercase; color: var(--gold);
+      border-left: 1px solid var(--gold); padding-left: 15px;
+    }
+
+    .description { 
+      font-size: 0.9rem; color: rgba(255,255,255,0.6); 
+      line-height: 1.7; margin-bottom: 40px; 
+      max-width: 450px; font-weight: 300; 
+    }
+
+    .action-btn {
+      padding: 15px 40px; border: 1px solid var(--gold);
+      color: var(--gold); text-decoration: none; font-size: 0.65rem;
+      letter-spacing: 3px; text-transform: uppercase; transition: 0.4s;
+    }
+    .action-btn:hover { background: var(--gold); color: #000; }
+
+    /* --- Optimized Small Circle Navigation --- */
+    .side-nav {
+      position: fixed; right: 30px; top: 55%;
+      transform: translateY(-50%); z-index: 1000;
+      display: flex; flex-direction: column; 
+      gap: 12px; /* Tightened gap to fit all 12 */
+      align-items: flex-end;
+    }
+
+    .circle-nav-wrapper {
+      display: flex; align-items: center; gap: 15px;
+      cursor: pointer;
+    }
+
+    /* Label that appears on hover */
+    .nav-label {
+      color: var(--gold); font-size: 0.55rem;
+      text-transform: uppercase; letter-spacing: 2px;
+      opacity: 0; transition: 0.3s; pointer-events: none;
+    }
+    .circle-nav-wrapper:hover .nav-label { opacity: 1; transform: translateX(-5px); }
+
+    .circle-nav {
+      width: 32px; height: 32px; /* Smaller footprint */
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%; overflow: hidden;
+      opacity: 0.5; filter: grayscale(1);
+      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .circle-nav img { width: 100%; height: 100%; object-fit: cover; }
+
+    .circle-nav-wrapper.active .circle-nav { 
+      opacity: 1; filter: grayscale(0);
+      transform: scale(1.4); 
+      border-color: var(--gold);
+      box-shadow: 0 0 15px rgba(192, 160, 128, 0.4);
+    }
+    .circle-nav-wrapper.active .nav-label { opacity: 1; font-weight: 600; }
+
+    /* Scrollbar Hidden */
+    body::-webkit-scrollbar { width: 0px; }
+
+    @media (max-width: 768px) {
+      .side-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="global-nav">
+    <a href="index.html" class="nav-logo">TH<span>MS</span></a>
+    <div class="site-links">
+      <a href="index.html">Home</a>
+      <a href="Destinations.html" class="active">Destinations</a>
+      <a href="Journal.html">Archive</a>
+      <a href="Booking.html">Reservations</a>
+    </div>
+  </nav>
+
+  <div id="bg-master"></div>
+  <div class="side-nav" id="side-nav"></div>
+
+  <main id="main-content"></main>
+
+  <script>
+    const destinations = [
+      { title: "The Giza Complex", loc: "Giza • Egypt", era: "2580 BC", type: "Funerary", coord: "29.97° N", desc: "The last standing wonder of the ancient world. A mathematical masterpiece of limestone and granite.", img: "https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?w=1600" },
+      { title: "The Rose City", loc: "Ma'an • Jordan", era: "312 BC", type: "Trade Hub", coord: "30.32° N", desc: "A rose-red city carved directly into the canyon walls. Once the thriving capital of the Nabataean Silk Road.", img: "https://images.unsplash.com/photo-1580619305218-8423a7ef79b4?w=1600" },
+      { title: "Kyoto Imperial", loc: "Kyoto • Japan", era: "1397 AD", type: "Zen Temple", coord: "35.03° N", desc: "The Kinkaku-ji Pavilion embodies Muromachi-era elegance, its top two floors covered in pure gold leaf.", img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1600" },
+      { title: "Incan Citadel", loc: "Cusco • Peru", era: "1450 AD", type: "Royal Estate", coord: "13.16° S", desc: "A cloud-shrouded masterpiece of dry-stone construction overlooking the Urubamba River.", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1600" },
+      { title: "The Watchtowers", loc: "Beijing • China", era: "220 BC", type: "Defensive", coord: "40.43° N", desc: "The legendary barrier that snakes across the northern ridges to protect the Middle Kingdom.", img: "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=1600" },
+      { title: "Cycladic Heights", loc: "Oia • Greece", era: "19th Cent.", type: "Maritime", coord: "36.46° N", desc: "Whitewashed villas perched on volcanic cliffs representing the soul of Mediterranean heritage.", img: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=1600" },
+      { title: "Marble Poem", loc: "Agra • India", era: "1632 AD", type: "Mausoleum", coord: "27.17° N", desc: "A monument to eternal love featuring perfect symmetry and intricate Persian-inspired floral inlay.", img: "https://images.unsplash.com/photo-1548013146-72479768bbaa?w=1600" },
+      { title: "Infinite Plains", loc: "Mara • Tanzania", era: "Natural", type: "Biosphere", coord: "2.33° S", desc: "A vast ecosystem holding the rhythm of the Great Migration and the spirit of the wild.", img: "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600" },
+      { title: "Flavian Theatre", loc: "Rome • Italy", era: "70 AD", type: "Arena", coord: "41.89° N", desc: "The architectural heart of the Roman Empire, designed for the grand spectacles of the state.", img: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=1600" },
+      { title: "Khmer Majesty", loc: "Siem Reap • Cambodia", era: "12th Cent.", type: "Religious", coord: "13.41° N", desc: "The world's largest religious monument, a sprawling stone representation of Mount Meru.", img: "https://images.unsplash.com/photo-1544376374-8b8fd4214f30?w=1600" },
+      { title: "The Vertical City", loc: "Positano • Italy", era: "Medieval", type: "Coastal", coord: "40.62° N", desc: "Colorful villas stacked vertically above the Tyrrhenian Sea in a masterclass of adaptation.", img: "https://images.unsplash.com/photo-1533903345306-15d1c30952de?w=1600" },
+      { title: "Surreal Valleys", loc: "Goreme • Turkey", era: "4th Cent.", type: "Troglodyte", coord: "38.64° N", desc: "Anatolia's 'Fairy Chimneys' and ancient subterranean churches carved out of soft volcanic tuff.", img: "https://images.unsplash.com/photo-1541167760496-162955ed8a9f?w=1600" }
+    ];
+
+    const bgMaster = document.getElementById('bg-master');
+    const mainContent = document.getElementById('main-content');
+    const sideNav = document.getElementById('side-nav');
+
+    destinations.forEach((d, i) => {
+      const bgDiv = document.createElement('div');
+      bgDiv.className = `bg-container ${i === 0 ? 'active' : ''}`;
+      bgDiv.id = `bg-${i}`;
+      bgDiv.innerHTML = `<img src="${d.img}">`;
+      bgMaster.appendChild(bgDiv);
+
+      const sec = document.createElement('section');
+      sec.className = 'dest-section';
+      sec.id = `dest-${i}`;
+      sec.innerHTML = `
+        <div class="vignette"></div>
+        <div class="content-wrap">
+          <span class="handwritten">${d.loc}</span>
+          <h1>${d.title}</h1>
+          <div class="tech-specs">
+            <span><b>Era</b> ${d.era}</span>
+            <span><b>Pos</b> ${d.coord}</span>
+          </div>
+          <p class="description">${d.desc}</p>
+          <a href="Booking.html" class="action-btn">Request Access</a>
+        </div>
+      `;
+      mainContent.appendChild(sec);
+
+      const navWrapper = document.createElement('div');
+      navWrapper.className = `circle-nav-wrapper ${i === 0 ? 'active' : ''}`;
+      navWrapper.id = `navwrap-${i}`;
+      navWrapper.innerHTML = `
+        <span class="nav-label">${d.title}</span>
+        <div class="circle-nav"><img src="${d.img}"></div>
+      `;
+      navWrapper.onclick = () => sec.scrollIntoView({ behavior: 'smooth' });
+      sideNav.appendChild(navWrapper);
+    });
+
+    window.addEventListener('scroll', () => {
+      let currentIdx = 0;
+      const sections = document.querySelectorAll('.dest-section');
+      sections.forEach((section, i) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+          currentIdx = i;
+        }
+      });
+
+      document.querySelectorAll('.bg-container').forEach((bg, i) => {
+        bg.classList.toggle('active', i === currentIdx);
+      });
+      document.querySelectorAll('.circle-nav-wrapper').forEach((nav, i) => {
+        nav.classList.toggle('active', i === currentIdx);
+      });
+    });
+  </script>
+</body>
+</html>
